@@ -1,0 +1,867 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecurePatch AI</title>
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🛡</div>
+
+            <div class="logo-text">
+                <h2>SecurePatch AI</h2>
+                <span>AI SECURITY ENGINE</span>
+            </div>
+        </div>
+
+
+        <nav>
+
+            <p class="nav-title">WORKSPACE</p>
+
+            <a href="#" class="nav-item active">
+                <span>◈</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>⌕</span>
+                <span>Security Scans</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>⚠</span>
+                <span>Vulnerabilities</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>⑂</span>
+                <span>Pull Requests</span>
+            </a>
+
+
+            <p class="nav-title">SYSTEM</p>
+
+            <a href="#" class="nav-item">
+                <span>◉</span>
+                <span>Activity</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>⚙</span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="breadcrumb">
+                Workspace / <strong>Security Dashboard</strong>
+            </div>
+
+            <div class="top-right">
+
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    Security Engine Online
+                </div>
+
+                <div class="avatar">
+                    SA
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================
+             DASHBOARD CONTENT
+        ========================== -->
+
+        <section class="content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="welcome">
+
+                <div class="welcome-text">
+
+                    <h1>Security Overview</h1>
+
+                    <p>
+                        Detect. Prove. Fix. Verify.
+                        Secure your code with AI.
+                    </p>
+
+                </div>
+
+
+                <!-- REPOSITORY INPUT -->
+
+                <div class="repo-input">
+
+                    <input
+                        type="text"
+                        id="repoUrl"
+                        placeholder="https://github.com/user/repository"
+                    >
+
+                    <button id="scanButton">
+                        ▶ Start Scan
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 STATISTICS
+            ========================== -->
+
+            <section class="stats">
+
+
+                <article class="stat-card">
+
+                    <span class="stat-label">
+                        Repositories Scanned
+                    </span>
+
+                    <h2>24</h2>
+
+                    <span class="stat-change">
+                        ↑ 12% this month
+                    </span>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <span class="stat-label">
+                        Vulnerabilities Found
+                    </span>
+
+                    <h2>37</h2>
+
+                    <span class="stat-change">
+                        ↓ 18% after remediation
+                    </span>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <span class="stat-label">
+                        Issues Fixed
+                    </span>
+
+                    <h2>31</h2>
+
+                    <span class="stat-change">
+                        ↑ 83.7% remediation rate
+                    </span>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <span class="stat-label">
+                        Pull Requests
+                    </span>
+
+                    <h2>18</h2>
+
+                    <span class="stat-change">
+                        94% successfully verified
+                    </span>
+
+                </article>
+
+            </section>
+
+
+
+            <!-- =========================
+                 MAIN DASHBOARD GRID
+            ========================== -->
+
+            <section class="dashboard-grid">
+
+
+                <!-- =========================
+                     SECURITY PIPELINE
+                ========================== -->
+
+                <article class="card pipeline-card">
+
+                    <header class="card-header">
+
+                        <h3>AI Security Pipeline</h3>
+
+                        <span>
+                            Last scan 4 min ago
+                        </span>
+
+                    </header>
+
+
+                    <div class="pipeline">
+
+
+                        <!-- STEP 1 -->
+
+                        <div class="pipeline-step completed">
+
+                            <div class="step-icon">
+                                ✓
+                            </div>
+
+                            <div class="step-info">
+
+                                <h4>
+                                    Repository Cloned
+                                </h4>
+
+                                <p>
+                                    Repository isolated inside
+                                    secure sandbox
+                                </p>
+
+                            </div>
+
+                            <span class="step-status">
+                                COMPLETED
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- STEP 2 -->
+
+                        <div class="pipeline-step completed">
+
+                            <div class="step-icon">
+                                ✓
+                            </div>
+
+                            <div class="step-info">
+
+                                <h4>
+                                    Static Security Scan
+                                </h4>
+
+                                <p>
+                                    Semgrep detected potential
+                                    SQL injection
+                                </p>
+
+                            </div>
+
+                            <span class="step-status">
+                                COMPLETED
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- STEP 3 -->
+
+                        <div class="pipeline-step completed">
+
+                            <div class="step-icon">
+                                ✓
+                            </div>
+
+                            <div class="step-info">
+
+                                <h4>
+                                    Baseline Tests
+                                </h4>
+
+                                <p>
+                                    42 existing tests executed
+                                    successfully
+                                </p>
+
+                            </div>
+
+                            <span class="step-status">
+                                42 / 42
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- STEP 4 -->
+
+                        <div class="pipeline-step completed">
+
+                            <div class="step-icon">
+                                ✓
+                            </div>
+
+                            <div class="step-info">
+
+                                <h4>
+                                    AI Vulnerability Analysis
+                                </h4>
+
+                                <p>
+                                    LLM analyzed vulnerable
+                                    data flow
+                                </p>
+
+                            </div>
+
+                            <span class="step-status">
+                                COMPLETED
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- STEP 5 -->
+
+                        <div class="pipeline-step completed">
+
+                            <div class="step-icon">
+                                ✓
+                            </div>
+
+                            <div class="step-info">
+
+                                <h4>
+                                    Exploit Test
+                                </h4>
+
+                                <p>
+                                    Generated test reproduced
+                                    vulnerability
+                                </p>
+
+                            </div>
+
+                            <span class="step-status">
+                                VERIFIED
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- STEP 6 -->
+
+                        <div class="pipeline-step running">
+
+                            <div class="step-icon">
+                                ●
+                            </div>
+
+                            <div class="step-info">
+
+                                <h4>
+                                    AI Security Fix
+                                </h4>
+
+                                <p>
+                                    LLM-generated remediation
+                                    being applied
+                                </p>
+
+                            </div>
+
+                            <span class="step-status">
+                                RUNNING
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- STEP 7 -->
+
+                        <div class="pipeline-step">
+
+                            <div class="step-icon">
+                                7
+                            </div>
+
+                            <div class="step-info">
+
+                                <h4>
+                                    Security Retest
+                                </h4>
+
+                                <p>
+                                    Verify vulnerability
+                                    is eliminated
+                                </p>
+
+                            </div>
+
+                            <span class="step-status">
+                                PENDING
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- STEP 8 -->
+
+                        <div class="pipeline-step">
+
+                            <div class="step-icon">
+                                8
+                            </div>
+
+                            <div class="step-info">
+
+                                <h4>
+                                    Regression Tests
+                                </h4>
+
+                                <p>
+                                    Ensure existing functionality
+                                    still works
+                                </p>
+
+                            </div>
+
+                            <span class="step-status">
+                                PENDING
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- STEP 9 -->
+
+                        <div class="pipeline-step">
+
+                            <div class="step-icon">
+                                9
+                            </div>
+
+                            <div class="step-info">
+
+                                <h4>
+                                    Pull Request
+                                </h4>
+
+                                <p>
+                                    Create verified security
+                                    pull request
+                                </p>
+
+                            </div>
+
+                            <span class="step-status">
+                                PENDING
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- =========================
+                     SECURITY FINDINGS
+                ========================== -->
+
+                <article class="card findings-card">
+
+                    <header class="card-header">
+
+                        <h3>
+                            Security Findings
+                        </h3>
+
+                        <span>
+                            3 findings
+                        </span>
+
+                    </header>
+
+
+                    <!-- FINDING 1 -->
+
+                    <div class="finding">
+
+                        <div class="finding-header">
+
+                            <span class="severity critical">
+                                CRITICAL
+                            </span>
+
+                            <span class="finding-id">
+                                SQL-001
+                            </span>
+
+                        </div>
+
+                        <h4>
+                            SQL Injection
+                        </h4>
+
+                        <p>
+                            User-controlled input is directly
+                            concatenated into a SQL query
+                            without parameterization.
+                        </p>
+
+                        <code>
+                            /api/users.py : 48
+                        </code>
+
+                    </div>
+
+
+
+                    <!-- FINDING 2 -->
+
+                    <div class="finding">
+
+                        <div class="finding-header">
+
+                            <span class="severity high">
+                                HIGH
+                            </span>
+
+                            <span class="finding-id">
+                                SEC-014
+                            </span>
+
+                        </div>
+
+                        <h4>
+                            Hardcoded Secret
+                        </h4>
+
+                        <p>
+                            A sensitive credential appears to
+                            be embedded directly inside
+                            application source code.
+                        </p>
+
+                        <code>
+                            /config/database.js : 12
+                        </code>
+
+                    </div>
+
+
+
+                    <!-- FINDING 3 -->
+
+                    <div class="finding">
+
+                        <div class="finding-header">
+
+                            <span class="severity medium">
+                                MEDIUM
+                            </span>
+
+                            <span class="finding-id">
+                                SEC-027
+                            </span>
+
+                        </div>
+
+                        <h4>
+                            Unsafe Input Handling
+                        </h4>
+
+                        <p>
+                            External input reaches a sensitive
+                            function without sufficient
+                            validation.
+                        </p>
+
+                        <code>
+                            /routes/upload.py : 71
+                        </code>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+
+            <!-- =========================
+                 LOWER GRID
+            ========================== -->
+
+            <section class="bottom-grid">
+
+
+                <!-- =========================
+                     AI ANALYSIS
+                ========================== -->
+
+                <article class="card">
+
+                    <header class="card-header">
+
+                        <h3>
+                            AI Vulnerability Analysis
+                        </h3>
+
+                        <span>
+                            SecurePatch LLM
+                        </span>
+
+                    </header>
+
+
+                    <div class="ai-content">
+
+                        <span class="ai-label">
+                            ✦ AI GENERATED ANALYSIS
+                        </span>
+
+                        <h3>
+                            SQL Injection detected
+                            in user lookup
+                        </h3>
+
+                        <p>
+                            The application directly inserts
+                            user-controlled input into a SQL
+                            query. An attacker could manipulate
+                            the input to alter the intended
+                            database query.
+                        </p>
+
+
+                        <div class="code-box">
+
+                            <pre>
+<span class="danger-code">
+query = "SELECT * FROM users WHERE id=" + user_id
+</span>
+
+<span class="safe-code">
+query = "SELECT * FROM users WHERE id=?"
+</span>
+                            </pre>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- =========================
+                     VERIFICATION EVIDENCE
+                ========================== -->
+
+                <article class="card">
+
+                    <header class="card-header">
+
+                        <h3>
+                            Verification Evidence
+                        </h3>
+
+                        <span>
+                            Security Proof
+                        </span>
+
+                    </header>
+
+
+                    <!-- TEST 1 -->
+
+                    <div class="test-result">
+
+                        <div>
+
+                            <h4>
+                                Existing Test Suite
+                            </h4>
+
+                            <p>
+                                Before modification
+                            </p>
+
+                        </div>
+
+                        <span class="passed">
+                            42 PASSED
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- TEST 2 -->
+
+                    <div class="test-result">
+
+                        <div>
+
+                            <h4>
+                                Generated Exploit Test
+                            </h4>
+
+                            <p>
+                                Original vulnerable code
+                            </p>
+
+                        </div>
+
+                        <span class="failed">
+                            FAILED ✓
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- TEST 3 -->
+
+                    <div class="test-result">
+
+                        <div>
+
+                            <h4>
+                                Security Retest
+                            </h4>
+
+                            <p>
+                                After AI remediation
+                            </p>
+
+                        </div>
+
+                        <span class="passed">
+                            PASSED
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- TEST 4 -->
+
+                    <div class="test-result">
+
+                        <div>
+
+                            <h4>
+                                Regression Test Suite
+                            </h4>
+
+                            <p>
+                                After modification
+                            </p>
+
+                        </div>
+
+                        <span class="passed">
+                            42 PASSED
+                        </span>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+
+            <!-- =========================
+                 PULL REQUEST
+            ========================== -->
+
+            <section class="pr-card">
+
+
+                <div class="pr-left">
+
+                    <div class="pr-icon">
+                        ⑂
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            Security Fix Ready
+                            for Human Review
+                        </h3>
+
+                        <p>
+                            Branch:
+                            security-fix/sql-injection
+                            • All verification checks passed
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <button id="prButton">
+                    View Pull Request →
+                </button>
+
+            </section>
+
+
+        </section>
+
+    </main>
+
+
+</body>
+
+</html>
+```
