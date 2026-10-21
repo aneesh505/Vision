@@ -74,7 +74,7 @@ Vision/
 
 ### Installation
 ```bash
-git clone https://github.com/your-username/demo.git
+git clone https://github.com/your-username/Vision.git
 cd demo
 pip install -r requirements.txt
 ```
