@@ -62,20 +62,21 @@ Vision/
 │   ├── style.css           # High-tech cyber theme (Light/Dark mode & glassmorphism)
 │   └── app.js              # Frontend controller & real-time job polling
 ├── requirements.txt        # Python backend dependencies
-└── .env                    # Environment configuration (API keys & GitHub token)
+├── LICENSE                 # MIT License
+└── .env                    # Local environment config (gitignored; not committed)
 ```
 
 ## 7. Getting started
 ### Prerequisites
 - Python 3.11+
-- Docker Desktop (running)
+- Docker Desktop (running). Optional; if it is not running, tests fall back to a local process.
 - GitHub Personal Access Token (classic with `repo` scope)
 - LLM API Key (OpenAI / Anthropic / OmniRoute)
 
 ### Installation
 ```bash
-git clone https://github.com/your-username/Vision.git
-cd demo
+git clone https://github.com/aneesh505/Vision.git
+cd Vision
 pip install -r requirements.txt
 ```
 
@@ -108,7 +109,7 @@ Then open your browser at **`http://localhost:8000`**.
 - ⚠️ *Warning: Intentionally vulnerable test applications. Do not deploy in production.*
 
 ## 10. Safety and limitations
-- Untrusted code runs exclusively inside ephemeral, isolated Docker containers with network and memory limits.
+- Untrusted code is meant to run inside ephemeral, isolated Docker containers with network and memory limits. If Docker is unavailable, the pipeline falls back to a local subprocess.
 - The agent never merges code automatically; human approval is strictly required via Pull Request review.
 - Generated patches are verified against automated test suites but remain subject to human review.
 - Exploit verification covers supported vulnerability classes within configured test scopes.
