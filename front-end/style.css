@@ -1,0 +1,351 @@
+/* ==========================================================================
+   AegisAI - DevSecOps High-Tech Cybersecurity & Self-Healing Theme
+   Features: Light/Dark Theme Variables, Glassmorphism, Neon Glows,
+             Scanlines, Code Diffs, and Interactive Pipeline Animations
+   ========================================================================== */
+
+/* --- THEME VARIABLES --- */
+:root {
+  /* DARK THEME (Default) */
+  --bg-primary: #070a12;
+  --bg-secondary: #0c1220;
+  --bg-tertiary: #131d33;
+  --bg-card: rgba(12, 18, 32, 0.78);
+  --bg-card-hover: rgba(19, 29, 51, 0.88);
+  --bg-input: rgba(4, 7, 15, 0.85);
+
+  /* Accents & Neon Glows */
+  --accent-cyan: #06b6d4;
+  --accent-cyan-glow: rgba(6, 182, 212, 0.35);
+  --accent-purple: #a855f7;
+  --accent-purple-glow: rgba(168, 85, 247, 0.35);
+  --accent-emerald: #10b981;
+  --accent-emerald-glow: rgba(16, 185, 129, 0.35);
+  --accent-rose: #f43f5e;
+  --accent-rose-glow: rgba(244, 63, 94, 0.35);
+  --accent-amber: #f59e0b;
+
+  /* Text Colors */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  /* Borders & Shadows */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(6, 182, 212, 0.5);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 25px -4px rgba(6, 182, 212, 0.25);
+
+  /* Diff / Terminal */
+  --terminal-bg: #03060d;
+  --diff-bg: #040813;
+  --diff-del-bg: rgba(244, 63, 94, 0.14);
+  --diff-del-text: #fb7185;
+  --diff-del-border: #f43f5e;
+  --diff-add-bg: rgba(16, 185, 129, 0.14);
+  --diff-add-text: #34d399;
+  --diff-add-border: #10b981;
+
+  /* Fonts */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', monospace;
+}
+
+/* --- LIGHT THEME OVERRIDES --- */
+[data-theme="light"] {
+  --bg-primary: #f1f5f9;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e2e8f0;
+  --bg-card: rgba(255, 255, 255, 0.88);
+  --bg-card-hover: rgba(248, 250, 252, 0.95);
+  --bg-input: #ffffff;
+
+  --accent-cyan: #0284c7;
+  --accent-cyan-glow: rgba(2, 132, 199, 0.2);
+  --accent-purple: #9333ea;
+  --accent-purple-glow: rgba(147, 51, 234, 0.2);
+  --accent-emerald: #059669;
+  --accent-emerald-glow: rgba(5, 150, 105, 0.2);
+  --accent-rose: #e11d48;
+  --accent-rose-glow: rgba(225, 29, 72, 0.2);
+  --accent-amber: #d97706;
+
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #94a3b8;
+
+  --border-subtle: rgba(15, 23, 42, 0.1);
+  --border-active: rgba(2, 132, 199, 0.5);
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+
+  --terminal-bg: #0f172a;
+  --diff-bg: #f8fafc;
+  --diff-del-bg: rgba(225, 29, 72, 0.1);
+  --diff-del-text: #be123c;
+  --diff-del-border: #e11d48;
+  --diff-add-bg: rgba(5, 150, 105, 0.1);
+  --diff-add-text: #047857;
+  --diff-add-border: #059669;
+}
+
+/* --- BASE STYLES --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.09) 0%, transparent 45%),
+    radial-gradient(circle at 90% 90%, rgba(6, 182, 212, 0.09) 0%, transparent 45%);
+  background-attachment: fixed;
+}
+
+.code-font {
+  font-family: var(--font-mono);
+}
+
+/* --- GLASSMORPHISM CARDS --- */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+[data-theme="light"] .glass-card:hover {
+  border-color: rgba(0, 0, 0, 0.16);
+}
+
+/* --- GLOW EFFECTS --- */
+.glow-cyan {
+  box-shadow: 0 0 24px -4px var(--accent-cyan-glow);
+}
+
+.glow-purple {
+  box-shadow: 0 0 24px -4px var(--accent-purple-glow);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 24px -4px var(--accent-emerald-glow);
+}
+
+/* --- CUSTOM SCROLLBAR --- */
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: var(--text-dim);
+  border-radius: 4px;
+}
+
+/* --- PIPELINE STEPPER --- */
+.step-card {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: transparent;
+  transition: background 0.3s ease;
+}
+
+.step-card.active {
+  border-color: var(--accent-cyan) !important;
+  background: rgba(6, 182, 212, 0.12) !important;
+  box-shadow: 0 0 20px -3px var(--accent-cyan-glow);
+}
+
+.step-card.active::before {
+  background: var(--accent-cyan);
+}
+
+.step-card.completed {
+  border-color: var(--accent-emerald) !important;
+  background: rgba(16, 185, 129, 0.1) !important;
+}
+
+.step-card.completed::before {
+  background: var(--accent-emerald);
+}
+
+/* --- SEVERITY BADGES --- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge-high, .badge-critical {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--accent-rose);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+.badge-medium {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--accent-amber);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--accent-emerald);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-info {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+/* --- DIFF CODE BLOCK STYLING --- */
+.diff-container {
+  background: var(--diff-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.diff-header {
+  background: var(--bg-tertiary);
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.diff-body {
+  padding: 12px;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.diff-del {
+  display: block;
+  background: var(--diff-del-bg);
+  color: var(--diff-del-text);
+  padding: 2px 8px;
+  border-left: 3px solid var(--diff-del-border);
+  border-radius: 2px;
+}
+
+.diff-add {
+  display: block;
+  background: var(--diff-add-bg);
+  color: var(--diff-add-text);
+  padding: 2px 8px;
+  border-left: 3px solid var(--diff-add-border);
+  border-radius: 2px;
+}
+
+/* --- TERMINAL WINDOW --- */
+.terminal-window {
+  background: var(--terminal-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Retro CRT / SOC Scanline effect */
+.terminal-window::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 4px;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.terminal-header {
+  background: var(--bg-secondary);
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #f59e0b; }
+.dot-green { background: #10b981; }
+
+.terminal-body {
+  padding: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.85); }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2s infinite ease-in-out;
+}
