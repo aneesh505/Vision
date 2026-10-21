@@ -44,7 +44,7 @@ Clone → Dependency Install → Scan (Bandit & Semgrep) → Baseline Tests → 
 
 ## 6. Project structure
 ```text
-demo/
+Vision/
 ├── backend/
 │   ├── main.py             # FastAPI server and job runner API endpoints
 │   ├── pipeline.py         # Core self-healing agentic workflow orchestrator
