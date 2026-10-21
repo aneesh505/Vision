@@ -1,0 +1,17 @@
+# Runtime
+fastapi
+uvicorn[standard]
+python-dotenv
+pygithub
+docker
+httpx
+
+# Scanning
+bandit
+
+# LLM
+anthropic
+
+# Testing
+pytest
+requests
