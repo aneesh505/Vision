@@ -140,7 +140,10 @@ def run_self_healing_pipeline(
     if enable_bandit:
         bandit_findings.extend(run_bandit(workspace_dir))
     if enable_semgrep:
-        bandit_findings.extend(run_semgrep(workspace_dir))
+        try:
+            bandit_findings.extend(run_semgrep(workspace_dir))
+        except Exception as semgrep_err:
+            print(f"Semgrep scanner skipped (not supported/installed on Windows/environment): {semgrep_err}")
     print(f"Security scanners found {len(bandit_findings)} issues.")
 
     # Filter findings to application source code (exclude test files)

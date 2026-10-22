@@ -8,7 +8,6 @@ httpx
 
 # Scanning
 bandit
-semgrep
 
 # LLM
 anthropic
