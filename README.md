@@ -99,9 +99,9 @@ Create a `.env` file in the root directory:
 ```env
 GITHUB_TOKEN=ghp_your_github_personal_access_token
 LLM_API_KEY=your_llm_api_key
-LLM_PROVIDER=omniroute
-LLM_BASE_URL=https://api.omniroute.ai/v1
-LLM_MODEL=auto
+LLM_PROVIDER=your_llm_provider
+LLM_BASE_URL=base_url
+LLM_MODEL=llm_model
 ```
 
 #### Run Locally
