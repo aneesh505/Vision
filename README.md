@@ -66,34 +66,31 @@ Vision/
 └── .env                    # Local environment config (gitignored; not committed)
 ```
 
-## 7. Deployment & Getting Started
+## 7. Getting started
+### Prerequisites
+- Python 3.11+
+- Docker Desktop (running). Optional; if it is not running, tests fall back to a local process.
+- GitHub Personal Access Token (classic with `repo` scope)
+- LLM API Key (OpenAI / Anthropic / OmniRoute)
 
-### 🚀 Deploying on Render (Recommended)
-You can deploy AegisAI instantly on Render as a Python Web Service:
-1. Fork or push this repository to your GitHub account.
-2. In your [Render Dashboard](https://dashboard.render.com/), click **New +** -> **Blueprint** and select your repository (Render will automatically detect `render.yaml`).
-3. Add the following **Environment Variables** in your Render dashboard:
-   - `LLM_PROVIDER`: `openai` (or `anthropic`)
-   - `LLM_API_KEY`: Your LLM Provider API Key
-   - `LLM_MODEL`: `gpt-4o-mini` (or `claude-3-5-sonnet-...`)
-   - `GITHUB_TOKEN`: Your GitHub Personal Access Token (with `repo` permissions for opening PRs)
-
-### Local Development (Optional)
-If you want to run it locally:
+### Installation
 ```bash
 git clone https://github.com/aneesh505/Vision.git
 cd Vision
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in the root directory:
+### Configuration
+Create a `.env` file in the root directory and configure your keys:
 ```env
 GITHUB_TOKEN=ghp_your_github_personal_access_token
-LLM_API_KEY=your_llm_api_key
+LLM_API_KEY=you_llm_api_key
 LLM_PROVIDER=openai
-LLM_MODEL=gpt-4o-mini
+LLM_BASE_URL=https://api.openai.com/v1
+LLM_MODEL=gpt-4o
 ```
 
+### Run
 Start the FastAPI backend server:
 ```bash
 python -m backend.main
