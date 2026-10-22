@@ -12,7 +12,7 @@ class LLMClient:
 
         self.api_key = os.getenv("LLM_API_KEY")
         self.base_url = os.getenv("LLM_BASE_URL")
-        self.model = os.getenv("LLM_MODEL", "gpt-4.1-mini")
+        self.model = os.getenv("LLM_MODEL", "auto")
 
         if self.provider in ("modal", "omniroute"):
             if self.base_url and not self.base_url.rstrip("/").endswith("/v1"):
@@ -32,12 +32,11 @@ class LLMClient:
     def query(self, prompt: str, system_prompt: str = "You are an expert DevSecOps and security engineering AI.") -> str:
         if not self.client:
             raise ValueError("LLM_API_KEY is not configured.")
-        if not self.model:
-            raise ValueError("LLM_MODEL is not configured.")
+        model_name = self.model if self.model else "auto"
 
         try:
             response = self.client.chat.completions.create(
-                model=self.model,
+                model=model_name,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
