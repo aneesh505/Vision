@@ -66,31 +66,45 @@ Vision/
 └── .env                    # Local environment config (gitignored; not committed)
 ```
 
-## 7. Getting started
-### Prerequisites
+## 7. Getting Started & Deployment
+
+You can use AegisAI either via the hosted live web service or by running it locally on your machine.
+
+### Option A: Use the Hosted Web App (Recommended)
+You can access and use AegisAI directly without installing anything:
+- **Live URL**: [https://aegisai-devsecops.onrender.com](https://aegisai-devsecops.onrender.com) *(Replace with your live Render URL)*
+1. Open the web app link in your browser.
+2. Enter your GitHub repository URL and click **Trigger Agent Loop**.
+
+---
+
+### Option B: Local Development Setup
+If you want to run your own instance of AegisAI locally:
+
+#### Prerequisites
 - Python 3.11+
-- Docker Desktop (running). Optional; if it is not running, tests fall back to a local process.
+- Docker Desktop (optional; falls back to local subprocess if unavailable)
 - GitHub Personal Access Token (classic with `repo` scope)
 - LLM API Key (OpenAI / Anthropic / OmniRoute)
 
-### Installation
+#### Installation
 ```bash
 git clone https://github.com/aneesh505/Vision.git
 cd Vision
 pip install -r requirements.txt
 ```
 
-### Configuration
-Create a `.env` file in the root directory and configure your keys:
+#### Configuration
+Create a `.env` file in the root directory:
 ```env
 GITHUB_TOKEN=ghp_your_github_personal_access_token
-LLM_API_KEY=you_llm_api_key
-LLM_PROVIDER=openai
-LLM_BASE_URL=https://api.openai.com/v1
-LLM_MODEL=gpt-4o
+LLM_API_KEY=your_llm_api_key
+LLM_PROVIDER=omniroute
+LLM_BASE_URL=https://api.omniroute.ai/v1
+LLM_MODEL=auto
 ```
 
-### Run
+#### Run Locally
 Start the FastAPI backend server:
 ```bash
 python -m backend.main
