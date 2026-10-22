@@ -14,7 +14,7 @@ class LLMClient:
         self.base_url = os.getenv("LLM_BASE_URL")
         self.model = os.getenv("LLM_MODEL", "gpt-4.1-mini")
 
-        if self.provider == "modal":
+        if self.provider in ("modal", "omniroute"):
             if self.base_url and not self.base_url.rstrip("/").endswith("/v1"):
                 self.base_url = f"{self.base_url.rstrip('/')}/v1"
         elif self.provider == "openai":
