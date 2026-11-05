@@ -1,6 +1,7 @@
 import os
 import subprocess
 import uuid
+import time
 from github import Github
 from dotenv import load_dotenv
 
@@ -49,7 +50,24 @@ def create_pull_request(repo_url: str, branch_name: str, title: str, body: str, 
         my_fork = user.create_fork(upstream_repo)
     except Exception as e:
         print(f"Fork may already exist or encountered note: {e}")
-        my_fork = g.get_repo(f"{username}/{repo_name}")
+
+    # Wait for fork to be ready/provisioned on GitHub API
+    fork_full_name = f"{username}/{repo_name}"
+    print(f"Waiting for fork {fork_full_name} to be ready...")
+    fork_ready = False
+    for attempt in range(15):  # wait up to 30 seconds
+        try:
+            my_fork = g.get_repo(fork_full_name)
+            if my_fork:
+                print(f"Fork {fork_full_name} is ready.")
+                fork_ready = True
+                break
+        except Exception:
+            pass
+        time.sleep(2)
+
+    if not fork_ready:
+        print(f"Warning: Fork {fork_full_name} not yet confirmed via API, proceeding with push attempt...")
 
     # Build PR body lines as requested:
     # AegisAI Autonomous Security Remediation
@@ -103,9 +121,19 @@ def create_pull_request(repo_url: str, branch_name: str, title: str, body: str, 
             subprocess.run(["git", "remote", "set-url", "origin", fork_clone_url], cwd=workspace_dir, check=False)
 
             print(f"Pushing branch {pr_branch} to fork {username}/{repo_name}...")
-            push_res = subprocess.run(["git", "push", "-u", "origin", pr_branch], cwd=workspace_dir, capture_output=True, text=True, check=False)
-            if push_res.returncode != 0:
-                print(f"Git push failed: {push_res.stderr}")
+            push_success = False
+            push_res = None
+            for push_attempt in range(1, 4):
+                push_res = subprocess.run(["git", "push", "-u", "origin", pr_branch], cwd=workspace_dir, capture_output=True, text=True, check=False)
+                if push_res.returncode == 0:
+                    push_success = True
+                    break
+                else:
+                    print(f"Git push attempt {push_attempt}/3 failed: {push_res.stderr.strip()}. Retrying in 3s...")
+                    time.sleep(3)
+
+            if not push_success:
+                print(f"Git push failed after 3 attempts: {push_res.stderr if push_res else 'unknown'}")
                 return ""
         except Exception as git_err:
             print(f"Git commit/push error: {git_err}")
