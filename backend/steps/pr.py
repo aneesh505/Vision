@@ -20,6 +20,7 @@ def create_pull_request(repo_url: str, branch_name: str, title: str, body: str, 
     try:
         user = g.get_user()
         username = user.login
+        print(f"Authenticated to GitHub as user: {username}")
     except Exception as e:
         print(f"GitHub authentication failed (check GITHUB_TOKEN): {e}")
         return ""
@@ -53,36 +54,71 @@ def create_pull_request(repo_url: str, branch_name: str, title: str, body: str, 
 
     # 1. Check if user owns the repository or needs to fork
     target_repo_owner = username
+    target_repo_name = repo_name
+    my_fork = None
+
     if owner.lower() == username.lower():
         print(f"User {username} already owns {upstream_full_name}. Skipping fork.")
         my_fork = upstream_repo
         target_repo_owner = owner
+        target_repo_name = repo_name
     else:
         # Automatically fork repository to authenticated user's account
         fork_full_name = f"{username}/{repo_name}"
         try:
             print(f"Forking {upstream_full_name} to user account ({username})...")
             my_fork = user.create_fork(upstream_repo)
+            print(f"Fork request sent successfully.")
         except Exception as e:
-            print(f"Fork creation note (may already exist): {e}")
+            print(f"Fork creation exception (may already exist): {e}")
 
-        # Wait for fork to be ready/provisioned on GitHub API
-        print(f"Waiting for fork {fork_full_name} to be ready...")
+        # Wait for fork to be ready/provisioned on GitHub API and locate exact fork repository name
+        print(f"Waiting for fork of {upstream_full_name} to be ready...")
         fork_ready = False
-        for attempt in range(15):  # wait up to 30 seconds
+        for attempt in range(1, 16):  # wait up to 30 seconds
             try:
-                my_fork = g.get_repo(fork_full_name)
-                if my_fork:
-                    print(f"Fork {fork_full_name} is ready.")
+                # 1. Try direct lookup by expected name
+                repo_candidate = g.get_repo(f"{username}/{repo_name}")
+                if repo_candidate:
+                    my_fork = repo_candidate
                     fork_ready = True
                     break
             except Exception:
                 pass
+
+            try:
+                # 2. Search user's repositories for any fork pointing to this upstream
+                for r in user.get_repos():
+                    if r.fork:
+                        try:
+                            parent = r.parent
+                            if parent and parent.full_name.lower() == upstream_full_name.lower():
+                                my_fork = r
+                                fork_ready = True
+                                break
+                        except Exception:
+                            if r.name.lower() == repo_name.lower():
+                                my_fork = r
+                                fork_ready = True
+                                break
+                if fork_ready:
+                    break
+            except Exception as ex:
+                print(f"Waiting attempt {attempt}/15: {ex}")
+
             time.sleep(2)
 
-        if not fork_ready:
-            print(f"Error: Fork {fork_full_name} could not be confirmed via GitHub API.")
-            return ""
+        if not fork_ready or not my_fork:
+            # Fallback: try getting repo directly one last time
+            try:
+                my_fork = g.get_repo(f"{username}/{repo_name}")
+            except Exception as e:
+                print(f"Error: Fork could not be confirmed via GitHub API: {e}")
+                return ""
+
+        target_repo_owner = my_fork.owner.login
+        target_repo_name = my_fork.name
+        print(f"Confirmed fork repository: {target_repo_owner}/{target_repo_name}")
 
     # Build PR body lines as requested:
     # AegisAI Autonomous Security Remediation
@@ -132,16 +168,17 @@ def create_pull_request(repo_url: str, branch_name: str, title: str, body: str, 
                 fallback_msg = "Security remediation and hardening"
                 subprocess.run(["git", "commit", "-F", "-"], input=fallback_msg.encode("utf-8"), cwd=workspace_dir, check=True)
 
-            fork_clone_url = f"https://{token}@github.com/{target_repo_owner}/{repo_name}.git"
+            fork_clone_url = f"https://{token}@github.com/{target_repo_owner}/{target_repo_name}.git"
             subprocess.run(["git", "remote", "set-url", "origin", fork_clone_url], cwd=workspace_dir, check=False)
 
-            print(f"Pushing branch {pr_branch} to {target_repo_owner}/{repo_name}...")
+            print(f"Pushing branch {pr_branch} to {target_repo_owner}/{target_repo_name}...")
             push_success = False
             push_res = None
             for push_attempt in range(1, 4):
                 push_res = subprocess.run(["git", "push", "-u", "origin", pr_branch], cwd=workspace_dir, capture_output=True, text=True, check=False)
                 if push_res.returncode == 0:
                     push_success = True
+                    print("Git push successful.")
                     break
                 else:
                     print(f"Git push attempt {push_attempt}/3 failed: {push_res.stderr.strip()}. Retrying in 3s...")
@@ -156,7 +193,7 @@ def create_pull_request(repo_url: str, branch_name: str, title: str, body: str, 
 
     # 3. Create Pull Request from fork branch to upstream repo
     try:
-        head_ref = f"{username}:{pr_branch}" if owner.lower() != username.lower() else pr_branch
+        head_ref = f"{target_repo_owner}:{pr_branch}" if owner.lower() != username.lower() else pr_branch
         print(f"Creating Pull Request on {upstream_full_name} from {head_ref}...")
         pr = upstream_repo.create_pull(
             title=pr_title,
