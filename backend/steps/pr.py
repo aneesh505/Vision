@@ -63,62 +63,51 @@ def create_pull_request(repo_url: str, branch_name: str, title: str, body: str, 
         target_repo_owner = owner
         target_repo_name = repo_name
     else:
-        # Automatically fork repository to authenticated user's account
-        fork_full_name = f"{username}/{repo_name}"
+        # Automatically fork repository to authenticated user's account.
+        # create_fork returns immediately; GitHub provisions the fork afterwards,
+        # and the fork's name is not always "{user}/{upstream name}" (a name
+        # collision gets a suffix). A 404 on the guessed name is not a failure.
         try:
             print(f"Forking {upstream_full_name} to user account ({username})...")
             my_fork = user.create_fork(upstream_repo)
-            print(f"Fork request sent successfully.")
+            print(f"Fork request sent successfully: {my_fork.full_name}")
         except Exception as e:
             print(f"Fork creation exception (may already exist): {e}")
+            my_fork = None
 
-        # Wait for fork to be ready/provisioned on GitHub API and locate exact fork repository name
-        print(f"Waiting for fork of {upstream_full_name} to be ready...")
-        fork_ready = False
-        for attempt in range(1, 16):  # wait up to 30 seconds
+        def locate_fork():
             try:
-                # 1. Try direct lookup by expected name
-                repo_candidate = g.get_repo(f"{username}/{repo_name}")
-                if repo_candidate:
-                    my_fork = repo_candidate
-                    fork_ready = True
-                    break
-            except Exception:
-                pass
-
-            try:
-                # 2. Search user's repositories for any fork pointing to this upstream
                 for r in user.get_repos():
-                    if r.fork:
-                        try:
-                            parent = r.parent
-                            if parent and parent.full_name.lower() == upstream_full_name.lower():
-                                my_fork = r
-                                fork_ready = True
-                                break
-                        except Exception:
-                            if r.name.lower() == repo_name.lower():
-                                my_fork = r
-                                fork_ready = True
-                                break
-                if fork_ready:
-                    break
+                    if not r.fork:
+                        continue
+                    try:
+                        parent = r.parent
+                        if parent and parent.full_name.lower() == upstream_full_name.lower():
+                            return r
+                    except Exception:
+                        if r.name.lower() == repo_name.lower() or r.name.lower() == upstream_repo.name.lower():
+                            return r
             except Exception as ex:
-                print(f"Waiting attempt {attempt}/15: {ex}")
+                print(f"Error searching existing repos: {ex}")
+            return None
 
+        print(f"Waiting for fork of {upstream_full_name} to be ready...")
+        for attempt in range(1, 16):  # up to ~30s while GitHub provisions the fork
+            found = locate_fork()
+            if found:
+                my_fork = found
+                print(f"Confirmed fork repository: {my_fork.full_name}")
+                break
+            print(f"Fork not visible yet (attempt {attempt}/15). Retrying in 2s...")
             time.sleep(2)
 
-        if not fork_ready or not my_fork:
-            # Fallback: try getting repo directly one last time
-            try:
-                my_fork = g.get_repo(f"{username}/{repo_name}")
-            except Exception as e:
-                print(f"Error: Fork could not be confirmed via GitHub API: {e}")
-                return ""
+        if not my_fork:
+            print(f"Error: Could not create or locate fork for {upstream_full_name}.")
+            return ""
 
         target_repo_owner = my_fork.owner.login
         target_repo_name = my_fork.name
-        print(f"Confirmed fork repository: {target_repo_owner}/{target_repo_name}")
+        print(f"Target fork repository: {target_repo_owner}/{target_repo_name}")
 
     # Build PR body lines as requested:
     # AegisAI Autonomous Security Remediation
